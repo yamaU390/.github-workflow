@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+/* 1. 基本レイアウト（A5縦書き二段組） */
+@import url("https://vivliostyle.github.io/vivliostyle_theme_vertical_novel/theme.css");
+
+@page {
+    size: A5;
+    margin: 20mm; /* Illustratorで作る枠に合わせて調整してください */
+}
+
+/* 2. 画像置換：背景の設定 */
+body {
+    background-image: url("../assets/images/bg_default.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* 演出タグ [背景: 秘密] などに反応させる設定 */
+section[data-bg="confession"] {
+    background-image: url("../assets/images/bg_crime_confession.png") !important;
+}
+
+section[data-bg="rain"] {
+    background-image: url("../assets/images/bg_rainy_street.png") !important;
+}
+
+/* 3. 音楽演出用の非表示設定（印刷時は消す） */
+@media print {
+    .audio-player {
+        display: none;
+    }
+}
