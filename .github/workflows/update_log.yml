@@ -1,0 +1,25 @@
+name: Fetch Google Docs to Vivliostyle
+on:
+  workflow_dispatch: # 手動で「更新」ボタンを押せるようにする設定
+  schedule:
+    - cron: '0 * * * *' # 1時間に1回、自動で読みに行く設定
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download Google Doc
+        run: |
+          # ほしさんのドキュメントIDを指定して中身を吸い出します
+          mkdir -p src
+          curl -L "https://docs.google.com/feeds/download/documents/export/Export?id=1LHTQUskpg5uETEq9E5oJv6x7XwMTmd3HWjDV8ZxQgjI&exportFormat=txt" -o src/log_data.md
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/log_data.md
+          git commit -m "Update log from Google Docs" || exit 0
+          git push
